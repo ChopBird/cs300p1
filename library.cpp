@@ -18,6 +18,8 @@ typedef struct {
 void initBooks(libdataT& l);
 bool checkSubject(book b, std::string s);
 void searchBySubject(std::vector<book>& libdata, std::string subject);
+void listBooks(std::vector<book>& books);
+void addBook(libdataT& libdata);
 int main(){
 
   std::string input;
@@ -30,8 +32,8 @@ int main(){
     std::cout << "1) List all books\n 2)Add a book\n 3)Search for books by subject\n";
       
     std::getline(std::cin,input);
-    //if(input == "1") listBooks(libdata); 
-    //if(input == "2") addBook(libdata);
+    if(input == "1") listBooks(libdata.bookList); 
+    if(input == "2") addBook(libdata);
     if(input == "3") {
       std::cout<<"What subject:\n";
       std::getline(std::cin, input);
@@ -54,6 +56,48 @@ void searchBySubject(std::vector<book>& libdata, std::string subject){
 	std::cout << "LoC ID: " << b.locID << "\n";
       }
      }
+}
+
+void addBook (libdataT& libdata){
+  std::string input;
+  book Book;
+  std::cout << "Title:\n";
+  std::getline(std::cin, Book.title);
+  
+    std::cout << "How many authors?\n";
+  std::getline(std::cin, input);
+  std::cout << "input names:\n";
+  for (int i = 0; i < std::stoi(input); i++)
+    std::getline(std::cin, Book.authors[i]);
+  
+std::cout <<"LoC ID:\n";
+  std::getline(std::cin, input);
+Book.locID =std::stoul(input);
+
+std::cout << "\nNumber of Subjects:\n";
+std::getline(std::cin, input);
+std::cout << "Input Subjects:\n";
+for(int i = 0; i < std::stoi(input); i++) std::getline(std::cin, Book.subjects[i]);
+std::cout << "Input publish date\n";
+std::getline(std::cin, Book.pubDate);
+std::cout << "Still Circulating? (y/n)\n";
+std::getline(std::cin,input);
+if (input == "y"){
+  Book.isCirculating = true;
+    }else{Book.isCirculating = false;}
+
+ libdata.bookList.push_back(Book);
+
+}
+
+void listBooks (std::vector<book>& books){
+  for (auto b : books){
+    std::cout << b.title << " by:\n";
+      for (auto a : b.authors) std:: cout<< a << "|";
+    std::cout << "\n\n";
+}
+
+
 }
  void initBooks(libdataT& l){
    book b1 = {
